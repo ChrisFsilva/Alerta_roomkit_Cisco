@@ -76,7 +76,7 @@ As seguintes tecnologias foram usadas na construção do projeto:
 
 -   **[JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)**
 -   **[XAPI](https://xapi.com/)**
--   **[Cisco Room Kit]((https://www.cisco.com/c/en/us/support/collaboration-endpoints/spark-room-kit/model.html))**
+-   **[Cisco Room Kit](https://www.cisco.com/c/en/us/support/collaboration-endpoints/spark-room-kit/model.html)**
 -   **[Webhook](https://webhook.site/)**
 -   **[Power Automate](https://www.microsoft.com/pt-br/power-platform/products/power-automate)**
 ---
