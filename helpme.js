@@ -22,7 +22,7 @@ xapi.Event.UserInterface.Extensions.Panel.Clicked.on(event => {
 
       room: 'Nome da Sala',
 
-      address: 'Andar/Unidade da sala',
+      address: 'Endereço/Andar/Unidade da sala',
 
       problem: 'Mensagem de alerta'
 
