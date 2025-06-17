@@ -92,18 +92,20 @@ Power Automate: A versão 1.0 da API foi planejada para ser integrada com o powe
 🧠 Room Bar (RoomOS) ✅ Sim
 🧠 Room Bar Pro ✅ Sim
 🧠 Room 70 / Room 55 / Room 75 ✅ Sim (desde que com RoomOS)
-  Os recursos de macros, painel touch com botões personalizados e integração via xAPI estão disponíveis nos seguintes equipamentos:
-⚠️ Modelos baseados em Android (ex: Board Pro 55/75 Android) podem ter limitações no suporte a macros e painéis personalizados.
+
+Os recursos de macros, painel touch com botões personalizados e integração via xAPI estão disponíveis nos seguintes equipamentos:
+  ⚠️ Modelos baseados em Android (ex: Board Pro 55/75 Android) podem ter limitações no suporte a macros e painéis personalizados.
+
 📡 Firmware (RoomOS)
-  A versão do RoomOS deve estar atualizada. Recomenda-se: 
-  RoomOS 11.x.x.x ou superior
-  Modelos mais antigos devem estar no mínimo no RoomOS 10.x
+    A versão do RoomOS deve estar atualizada. Recomenda-se: 
+    RoomOS 11.x.x.x ou superior
+    Modelos mais antigos devem estar no mínimo no RoomOS 10.x
 ⚙️ Macros habilitadas
-  Acesse o terminal da Room Kit (via Web ou SSH)
-  Verifique e habilite em:
-    Settings > Macros > Enable: true
+    Acesse o terminal da Room Kit (via Web ou SSH)
+    Verifique e habilite em:
+      Settings > Macros > Enable: true
 🔧 Painel com botões personalizados
-    Precisa estar configurado pelo Web Portal da Room Kit (IP da interface de admin) Ou carregado via código JSON no endpoint /web/UXConfiguration/Panel
+      Precisa estar configurado pelo Web Portal da Room Kit (IP da interface de admin) Ou carregado via código JSON no endpoint /web/UXConfiguration/Panel
 🌍 Servidor de tempo (NTP) sincronizado
     O equipamento precisa de data e hora corretas para:
       Log de eventos
@@ -113,16 +115,16 @@ Power Automate: A versão 1.0 da API foi planejada para ser integrada com o powe
 
 - Licenciamento do webhook (para ambientes que o power plataform seja fechado)
 ```bash
-  🛰️ A Room Kit precisa poder acessar: (se for usar APIs externas)
-       URLs HTTP/HTTPS externas (para Power Automate, Zapier, SendGrid, etc)
-       DNS funcionando corretamente
+🛰️ A Room Kit precisa poder acessar: (se for usar APIs externas)
+      URLs HTTP/HTTPS externas (para Power Automate, Zapier, SendGrid, etc)
+      DNS funcionando corretamente
 ```
 
 - Licenciamento do power plataform: Caso seja ambiente aberto você poderá gerar o link diretamente no power automate, excluindo a necessidade do Webhook
 ```bash
-  🧾 Webhook de teste ou URL do Power Automate
+🧾 Webhook de teste ou URL do Power Automate
     Criar gatilho do tipo:
-    “Quando uma requisição HTTP for recebida” no Power Automate ou usar uma API pública temporária (Webhook.site, RequestBin, etc)
+      “Quando uma requisição HTTP for recebida” no Power Automate ou usar uma API pública temporária (Webhook.site, RequestBin, etc)
 ```
 
 - Configurações de rede
@@ -133,12 +135,9 @@ Power Automate: A versão 1.0 da API foi planejada para ser integrada com o powe
         MTU correta (1500 bytes ou conforme rede)
         Sem bloqueios de porta: 443 (HTTPS), 123 (NTP), 80 (fallback)
  🧑‍💻 Acesso SSH habilitado
-    Usado para testes avançados e depuração
-    Habilitar via Web UI → Settings > Security > SSH: Enabled
+      Usado para testes avançados e depuração
+      Habilitar via Web UI → Settings > Security > SSH: Enabled
 ```
-
-
-
 ---
   
 <b>Instalação:</b>
