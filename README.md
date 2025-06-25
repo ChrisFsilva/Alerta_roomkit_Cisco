@@ -69,7 +69,20 @@ Com o botão: Cada alerta pode ser logado em sistemas como Excel, Google Sheets,
 
 ## 🎨Layout
 
-- Momentaneamente indisponivel
+-
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+<img alt="helpme Cisco By Christopher Silva" title="#helpme-Cisco" src="https://br.pinterest.com/cd162e8e-e098-4417-8979-f92e3548166f"/> </p>
+
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+<img alt="Helpme Cisco By Christopher Silva" title="#helpme-Cisco" src="https://i.pinimg.com/1200x/97/fb/bd/97fbbd99069f4c3827d0cbed77bc5402.jpg"/> </p>
+
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+<img alt="helpme Cisco By Christopher Silva" title="#helpme-Cisco" src="https://i.pinimg.com/736x/47/c0/ff/47c0ff1c74c3b5062ed0e667e5cef7db.jpg"/> </p>
+
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+<img alt="helpme Cisco By Christopher Silva" title="#helpme-Cisco" src="https://br.pinterest.com/cd162e8e-e098-4417-8979-f92e3548166f"/> </p>
+
+- 
 
 Componentes Principais:
 Room kit (Versões mini, kit, pro e plus): Sistema de video conferencia da Cisco.
