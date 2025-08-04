@@ -172,17 +172,15 @@ Solicitar ajuda:
 
 ### 🧑‍💻Guia do Usuário:
 
-``` bash
-- Momentaneamente indisponivel
-```
 ```mermaid
 graph TD
-A[Botão acionado] --> B{Solicitação esta dentro do schema?}
-B --> |Sim| C[Post Power Automate]
-B --> |Não| D[Solicitação recusada]
-C --> E[Criar item no sharepoint]
-E --> F[Criar banco de dados CSV]
-F --> G[Transformar CSV em gráfico]
+A[Botão acionado] --> B[Expecificar o problema que esta ocorrendo]
+B --> C{Solicitação esta dentro do schema?}
+C --> |Sim| D[Post Power Automate]
+C --> |Não| E[Solicitação recusada]
+D --> F[Criar item no sharepoint]
+F --> G[Criar banco de dados CSV]
+G --> H[Transformar CSV em gráfico]
 ```
 
 ## 🛠 Tecnologias
