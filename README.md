@@ -175,6 +175,15 @@ Solicitar ajuda:
 ``` bash
 - Momentaneamente indisponivel
 ```
+```mermaid
+graph TD
+A[Botão acionado] --> B{Solicitação esta dentro do schema?}
+B --> |Sim| C[Post Power Automate]
+B --> |Não| D[Solicitação recusada]
+C --> E[Criar item no sharepoint]
+E --> F[Criar banco de dados CSV]
+F --> G[Transformar CSV em gráfico]
+```
 
 ## 🛠 Tecnologias
 
