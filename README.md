@@ -25,7 +25,15 @@ Tecnologias Utilizadas:
 JavaScript: Programado totalmente na linguagem
 Xapi: Biblioteca utilizada pelo sistema Room Kit
 Webhook: Receptor de API
-
+ #### Fluxo no Power Automate
+```mermaid
+graph TD
+A[Solicitação HTTP - Quando uma solicitação HTTP for recebida ] --> B{Solicitação esta dentro do schema?}
+B --> |Sim| C[Sharepoint - Criar Item]
+B --> |Não| D[Cisco Room Kit - Solicitação recusada]
+C --> E[Excel - Adicionar uma linha em uma tabela]
+E --> F[Codigo Python com Pandas/BeatifulSoup]
+```
 ---
 
 ## 🚧 Problemas resolvidos
