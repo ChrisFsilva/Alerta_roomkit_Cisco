@@ -1,4 +1,4 @@
-Unidade,Sala,Status,Data
+Unidade,Sala,Status,Data,Problema
 Praia de botafogo,Futuro,Pendente,04-21-25 09-33-53
 NIO - SP,Link,Aberto,07-15-25 10-38-50
 Arcos,Link,Concluído,07-17-25 21-57-21
@@ -62,16 +62,16 @@ Praia de botafogo,Neutra,Concluído,05-19-25 11-42-23
 Cenu,Wifi,Aberto,02-26-25 18-35-09
 Praia de botafogo,Conexão,Aberto,05-07-25 13-41-54
 Arcos,Link,Aberto,03-05-25 06-11-14
-Cenu,Conexão,Aberto,07-24-25 04-06-51
-Arcos,Neutra,Pendente,07-01-25 20-23-45
+Cenu,Conexão,Aberto,12-24-25 04-06-51
+Arcos,Neutra,Pendente,10-01-25 20-23-45
 Praia de botafogo,Conexão,Em andamento,07-17-25 12-04-30
-Casa do ator,Neutra,Pendente,07-18-25 11-45-19
+Casa do ator,Neutra,Pendente,11-18-25 11-45-19
 Praia de botafogo,Futuro,Em andamento,06-16-25 04-14-31
-NIO - RJ,Futuro,Concluído,05-12-25 10-59-43
+NIO - RJ,Futuro,Concluído,09-12-25 10-59-43
 Casa do ator,Conexão,Pendente,06-05-25 20-30-52
-Arcos,Futuro,Pendente,07-03-25 22-07-22
+Arcos,Futuro,Pendente,08-03-25 22-07-22
 Praia de botafogo,Neutra,Aberto,02-22-25 16-01-53
-NIO - SP,Futuro,Aberto,02-17-25 09-40-30
+NIO - SP,Futuro,Aberto,12-17-25 09-40-30
 NIO - RJ,Conexão,Aberto,05-11-25 13-53-20
 NIO - RJ,Neutra,Em andamento,07-30-25 20-58-52
 Arcos,Wifi,Concluído,05-02-25 05-30-45
