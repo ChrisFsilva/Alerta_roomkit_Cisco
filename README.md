@@ -32,7 +32,7 @@ A[Solicitação HTTP - Quando uma solicitação HTTP for recebida ] --> B{Solici
 B --> |Sim| C[Sharepoint - Criar Item]
 B --> |Não| D[Cisco Room Kit - Solicitação recusada]
 C --> E[Excel - Adicionar uma linha em uma tabela]
-E --> F[Codigo Python com Pandas/BeatifulSoup]
+E --> F[Codigo Python com Pandas/Matplotlib/tkinter/customtkinter]
 ```
 ---
 
