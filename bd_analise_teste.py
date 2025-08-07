@@ -1,124 +1,267 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import customtkinter as ctk
 import tkinter as tk
-from tkinter import ttk
 
-# ======= 1. Carrega os dados =======
+# ======= Configuração inicial do CustomTkinter =======
+ctk.set_appearance_mode("dark")  # ou "light"
+ctk.set_default_color_theme("blue")
+
+# ======= Janela principal =======
+root = ctk.CTk()
+root.title("Painéis de Chamados")
+root.geometry("1920x1080")
+root.configure(fg_color="#3c3c3c")
+
+# ======= Carrega os dados inicialmente =======
 df = pd.read_csv('db_analise_ficticio.csv')
-
-# Converte coluna de data
 df['Data'] = pd.to_datetime(df['Data'], format='%m-%d-%y %H-%M-%S')
 
-# Filtra os dados
 df_concluido = df[df['Status'] == 'Concluído']
 df_aberto = df[df['Status'] == 'Aberto'].sort_values(by='Data')
-
-# Agrupa os concluídos por mês
 df_concluido['MesAno'] = df_concluido['Data'].dt.strftime('%m-%Y')
 chamados_por_mes = df_concluido.groupby('MesAno').size()
 
-# ======= 2. Interface principal =======
-root = tk.Tk()
-root.title("Painéis de Chamados")
-root.geometry("1920x1080")  # Define o tamanho da janela principal
-root.configure(bg="white")
+# ======= Painel 1: Chamados em aberto =======
 
-# ======= Painel 1: Chamados em aberto (com scroll) =======
-frame_painel1 = tk.Frame(root, width=200, height=900, bg='white')
-frame_painel1.place(relx=0.10, rely=0.05)  # Posição e tamanho relativo
+frame_painel1 = ctk.CTkFrame(root, width=275, height=815, corner_radius=10)
+frame_painel1.place(relx=0.10, rely=0.05)
+ctk.CTkLabel(frame_painel1, 
+             text="Solicitando atendimento", 
+             font=("Arial", 16, "bold")
+             ).pack(pady=10)
 
-# Adiciona um canvas e scrollbar para rolagem
-canvas = tk.Canvas(frame_painel1, bg='white', width=200, height=900)
-scrollbar = ttk.Scrollbar(frame_painel1, orient='vertical', command=canvas.yview)
-scrollable_frame = tk.Frame(canvas, bg='white')
+canvas1 = tk.Canvas(frame_painel1, 
+                    bg='#515151', 
+                    width=220, 
+                    height=815, 
+                    highlightthickness=0)
 
-# Configura o canvas para usar a barra de rolagem
-scrollable_frame.bind(
-    "<Configure>",
-    lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
-)
-canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-canvas.configure(yscrollcommand=scrollbar.set)
+scrollbar1 = tk.Scrollbar(frame_painel1, 
+                          orient='vertical', 
+                          command=canvas1.yview)
 
-canvas.pack(side="left", fill="both", expand=True)
-scrollbar.pack(side="right", fill="y")
+scrollable_frame1 = ctk.CTkFrame(canvas1, 
+                                 fg_color="#515151")
 
-# Adiciona um "card" verde para cada chamado em aberto
+scrollable_frame1.bind("<Configure>", lambda e: canvas1.configure(scrollregion=canvas1.bbox("all")))
+canvas1.create_window((0, 0), 
+                      window=scrollable_frame1, 
+                      anchor="nw")
+canvas1.configure(yscrollcommand=scrollbar1.set)
+canvas1.pack(side="left", 
+             fill="both", 
+             expand=True)
+scrollbar1.pack(side="right", fill="y")
+
 for _, row in df_aberto.iterrows():
-    card = tk.Frame(scrollable_frame, bg='lightgreen', bd=2, relief='solid', padx=5, pady=5)
-    card.pack(pady=5, fill='x', expand=True)
+    card = ctk.CTkFrame(scrollable_frame1, fg_color="#ff5c5c", corner_radius=10)
+    card.pack(pady=5, padx=10, fill="x")
+    ctk.CTkLabel(card, 
+                 text=f"Unidade: {row['Unidade']}", 
+                 anchor='w', 
+                 text_color="black"
+                 ).pack(anchor='w', 
+                        padx=10)
+    
+    ctk.CTkLabel(card, 
+                 text=f"Sala: {row['Sala']}", 
+                 anchor='w', 
+                 text_color="black"
+                 ).pack(anchor='w', 
+                        padx=10)
+    
+    ctk.CTkLabel(card, 
+                 text=f"Problema: {row['Problema']}", 
+                 anchor='w', 
+                 text_color="black"
+                 ).pack(anchor='w', 
+                        padx=10)
+    
+    ctk.CTkLabel(card, 
+                 text=f"Data: {row['Data'].strftime('%d/%m/%Y %H:%M')}", 
+                 anchor='w', text_color="black"
+                 ).pack(anchor='w', 
+                        padx=10)
 
-    unidade = tk.Label(card, text=f"Unidade: {row['Unidade']}", bg='lightgreen', anchor='w')
-    sala = tk.Label(card, text=f"Sala: {row['Sala']}", bg='lightgreen', anchor='w')
-    problema = tk.Label(card, text=f"Problema: {row['Problema']}", bg='lightgreen', anchor='w')
-    data = tk.Label(card, text=f"Data: {row['Data'].strftime('%d/%m/%Y %H:%M')}", bg='lightgreen', anchor='w')
+# ======= Painel 2: Gráfico de chamados concluídos por mês =======
 
-    unidade.pack(anchor='w')
-    sala.pack(anchor='w')
-    problema.pack(anchor='w')
-    data.pack(anchor='w')
-
-# ======= Painel 2: Gráfico de barras dos concluídos =======
-frame_painel2 = tk.Frame(root, width=100, height=500, bg='white')
+frame_painel2 = ctk.CTkFrame(root, width=1000, height=600)
 frame_painel2.place(relx=0.25, rely=0.05)
 
-fig, ax = plt.subplots(figsize=(14, 6))
+fig, ax = plt.subplots(figsize=(10, 5.8))
+ax.bar(chamados_por_mes.index, chamados_por_mes.values, color='gold')
+ax.set_title('Chamados Concluídos por Mês', color="white", weight="bold", pad=13)
+ax.set_xlabel('Mês/Ano', color="white")
+ax.set_ylabel('Quantidade', color="white")
+ax.set_facecolor('#515151')
+fig.patch.set_facecolor('#515151')
+ax.yaxis.grid(True, color='#515151', linestyle='--', linewidth=0.3)
+ax.xaxis.grid(False)
+plt.setp(ax.get_xticklabels(), rotation=45, color="white")
 
-# Adiciona apenas a grid lateral (eixo Y)
-ax.yaxis.grid(True, color='gold', linestyle='--', linewidth=0.5)
-ax.xaxis.grid(False)  # Desativa a grid no eixo X
-
-ax.bar(chamados_por_mes.index, chamados_por_mes.values, color='black')
-ax.set_title('Chamados Concluídos por Mês')
-ax.set_xlabel('Mês/Ano')
-ax.set_ylabel('Quantidade')
-ax.set_facecolor('white')
-fig.patch.set_facecolor('white')
-plt.xticks(rotation=45)
-
-# ======= Painel 3 - Chamados Pendentes com rolagem horizontal =======
-
-# Criação do frame externo (Painel 3)
-painel3 = tk.Frame(root, width=780, height=455, bg='white')
-painel3.place(relx=0.30, rely=0.78)  # posicionado abaixo do painel 2
-
-# Canvas e scrollbar horizontal
-canvas_painel3 = tk.Canvas(painel3, bg='white', width=1200, height=150) # Tamanho do quadro
-scrollbar_x = tk.Scrollbar(painel3, orient='horizontal', command=canvas_painel3.xview) # Barra de rolagem do quadro
-canvas_painel3.configure(xscrollcommand=scrollbar_x.set)
-scrollable_frame3 = tk.Frame(canvas_painel3, bg='white')
-
-# Configura o canvas para usar a barra de rolagem
-scrollable_frame3.bind(
-    "<Configure>",
-    lambda e: canvas_painel3.configure(scrollregion=canvas_painel3.bbox("all"))
-)
-
-canvas_window = canvas_painel3.create_window((0, 0), window=scrollable_frame3, anchor="nw")
-canvas.configure(xscrollcommand=scrollbar.set)
-
-canvas_painel3.pack(side="top", fill="both", expand=True)
-scrollbar_x.pack(side="bottom", fill="x")
-
-# === Inserção dos cards com status "pendente"
-pendentes = df[df['Status'].str.lower() == 'pendente']  # Filtro
-
-# Ordena por data/hora mais antiga
-pendentes = pendentes.sort_values(by='Data')
-
-for index, row in pendentes.iterrows():
-    card = tk.Frame(scrollable_frame3, bg='gold', bd=2, relief='solid', padx=10, pady=5)
-    card.pack(side='left', padx=10, pady=10)
-
-    # Exibe informações
-    tk.Label(card, text=f"Unidade: {row['Unidade']}", bg='gold', anchor='w').pack()
-    tk.Label(card, text=f"Sala: {row['Sala']}", bg='gold', anchor='w').pack()
-    tk.Label(card, text=f"Problema: {row['Problema']}", bg='gold', anchor='w').pack()
-    tk.Label(card, text=f"Data: {row['Data']}", bg='gold', anchor='w').pack()
-
-# Embeda o gráfico no Tkinter
 canvas_fig = FigureCanvasTkAgg(fig, master=frame_painel2)
 canvas_fig.draw()
 canvas_fig.get_tk_widget().pack(fill='both', expand=True)
+
+# ======= Painel 3: Chamados Pendentes com rolagem horizontal =======
+painel3 = ctk.CTkFrame(root, width=1000, height=300, corner_radius=10, fg_color="black")
+painel3.place(relx=0.25, rely=0.65)
+
+ctk.CTkLabel(painel3, text="Chamados em atendimento", 
+             font=("Arial", 16, "bold"),
+             corner_radius=6, 
+             text_color="white"
+             ).pack(pady=(10, 5))
+
+canvas3 = tk.Canvas(painel3, bg="#515151", width=1000, height=200, highlightthickness=0)
+scrollbar_x = tk.Scrollbar(painel3, orient='horizontal', command=canvas3.xview)
+scrollable_frame3 = ctk.CTkFrame(canvas3, fg_color="#515151")
+
+scrollable_frame3.bind("<Configure>", lambda e: canvas3.configure(scrollregion=canvas3.bbox("all")))
+canvas3.create_window((0, 0), window=scrollable_frame3, anchor="nw")
+canvas3.configure(xscrollcommand=scrollbar_x.set)
+canvas3.pack(side="top", fill="both", expand=True)
+scrollbar_x.pack(side="bottom", fill="x")
+
+pendentes = df[df['Status'].str.lower() == 'pendente'].sort_values(by='Data')
+for row in pendentes.itertuples():
+    card = ctk.CTkFrame(scrollable_frame3, fg_color="#FFD700", corner_radius=10)
+    card.pack(side='left', padx=10, pady=10)
+
+    ctk.CTkLabel(card, 
+                 text=f"Unidade: {row.Unidade}", 
+                 anchor='w', 
+                 text_color="black"
+                 ).pack(anchor="w", 
+                        padx=10)
+    
+    ctk.CTkLabel(card, 
+                 text=f"Sala: {row.Sala}", 
+                 anchor='w', 
+                 text_color="black"
+                 ).pack(anchor="w", 
+                        padx=10)
+    
+    ctk.CTkLabel(card, 
+                 text=f"Problema: {row.Problema}", 
+                 anchor='w', 
+                 text_color="black"
+                 ).pack(anchor="w", 
+                        padx=10)
+    
+    ctk.CTkLabel(card, 
+                 text=f"Data: {row.Data.strftime('%d/%m/%Y %H:%M')}", 
+                 anchor='w', 
+                 text_color="black"
+                 ).pack(anchor="w", 
+                        padx=10)
+
+# ======= Função de atualização automática =======
+
+def atualizar_dados():
+    global df_aberto, df_concluido, chamados_por_mes
+
+    try:
+        df_novo = pd.read_csv('db_analise_ficticio.csv')
+        df_novo['Data'] = pd.to_datetime(df_novo['Data'], format='%m-%d-%y %H-%M-%S')
+
+        df_aberto = df_novo[df_novo['Status'] == 'Aberto'].sort_values(by='Data')
+        df_concluido = df_novo[df_novo['Status'] == 'Concluído']
+        df_concluido['MesAno'] = df_concluido['Data'].dt.strftime('%m-%Y')
+        chamados_por_mes = df_concluido.groupby('MesAno').size()
+        pendentes = df_novo[df_novo['Status'].str.lower() == 'pendente'].sort_values(by='Data')
+
+        # Atualiza painel 1
+        for widget in scrollable_frame1.winfo_children():
+            widget.destroy()
+        for _, row in df_aberto.iterrows():
+            card = ctk.CTkFrame(scrollable_frame1, fg_color="#ff5c5c", corner_radius=10)
+            card.pack(pady=5, padx=10, fill="x")
+            ctk.CTkLabel(card, 
+                         text=f"Unidade: {row['Unidade']}", 
+                         anchor='w', 
+                         text_color="black"
+                         ).pack(anchor='w', 
+                                padx=10)
+            
+            ctk.CTkLabel(card, 
+                         text=f"Sala: {row['Sala']}", 
+                         anchor='w', 
+                         text_color="black"
+                         ).pack(anchor='w', 
+                                padx=10)
+            
+            ctk.CTkLabel(card, 
+                         text=f"Problema: {row['Problema']}", 
+                         anchor='w', 
+                         text_color="black"
+                         ).pack(anchor='w', 
+                                padx=10)
+            
+            ctk.CTkLabel(card, 
+                         text=f"Data: {row['Data'].strftime('%d/%m/%Y %H:%M')}", 
+                         anchor='w', 
+                         text_color="black"
+                         ).pack(anchor='w', 
+                                padx=10)
+
+        # Atualiza gráfico (painel 2)
+        
+        ax.clear()
+        ax.bar(chamados_por_mes.index, chamados_por_mes.values, color='gold')
+        ax.set_title('Chamados Concluídos por Mês', color="white", weight="bold", pad=13)
+        ax.set_xlabel('Mês/Ano', color="white")
+        ax.set_ylabel('Quantidade', color="white")
+        ax.set_facecolor('#515151')
+        fig.patch.set_facecolor('#515151')
+        ax.yaxis.grid(True, color='#515151', linestyle='--', linewidth=0.3)
+        ax.xaxis.grid(False)
+        plt.setp(ax.get_xticklabels(), rotation=45, color="white")
+        canvas_fig.draw()
+
+        # Atualiza painel 3
+        for widget in scrollable_frame3.winfo_children():
+            widget.destroy()
+        for row in pendentes.itertuples():
+            card = ctk.CTkFrame(scrollable_frame3, fg_color="#FFD700", corner_radius=10)
+            card.pack(side='left', padx=10, pady=10)
+            ctk.CTkLabel(card, 
+                         text=f"Unidade: {row.Unidade}", 
+                         anchor='w', 
+                         text_color="black"
+                         ).pack(anchor="w", 
+                                padx=10)
+            
+            ctk.CTkLabel(card, 
+                         text=f"Sala: {row.Sala}", 
+                         anchor='w', 
+                         text_color="black"
+                         ).pack(anchor="w", 
+                                padx=10)
+            
+            ctk.CTkLabel(card, 
+                         text=f"Problema: {row.Problema}", 
+                         anchor='w', 
+                         text_color="black"
+                         ).pack(anchor="w", 
+                                padx=10)
+            
+            ctk.CTkLabel(card, 
+                         text=f"Data: {row.Data.strftime('%d/%m/%Y %H:%M')}", 
+                         anchor='w', 
+                         text_color="black"
+                         ).pack(anchor="w", 
+                                padx=10)
+
+    except Exception as e:
+        print(f"Erro ao atualizar dados: {e}")
+
+    root.after(30000, atualizar_dados)  # Atualiza novamente em 30 segundos
+
+# ======= Inicia a primeira atualização programada =======
+root.after(1000, atualizar_dados)
+
+# ======= Mainloop =======
 root.mainloop()
